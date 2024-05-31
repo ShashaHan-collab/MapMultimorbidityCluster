@@ -22,6 +22,19 @@ The methodology involves estimating the impact of one disease on the risk of ano
 * xlsx
 * cowplot
 * scales
+* ggplot2
+* reshape2
+* devtools
+* dplyr
+* grid
+* cowplot
+* igraph
+* mlbench
+* psych
+* RColorBrewer
+* circlize
+* dendextend
+* openxlsx
 
 # Descriptions of the files
 
