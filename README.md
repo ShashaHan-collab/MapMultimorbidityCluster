@@ -11,7 +11,7 @@ The methodology involves estimating the impact of one disease on the risk of ano
 * R version 4.0.3.
 * TODO
 ## Prerequisite third-party R packages
-* TODO
+* TODO, below are examples, please update. 
 * readxl
 * tidyverse
 * sfsmisc
@@ -40,4 +40,7 @@ The methodology involves estimating the impact of one disease on the risk of ano
 * pvclust
 
 # Descriptions of the files
-
+* 1. pairwise analysis with tmle.R: R script for estimating the impact of one disease on the risk of another using targeted maximum likelihood estimation (TMLE). It generates intermediate pairwise casual estimates for the following procedure.
+* 2. top identification and plots.R: Rscript for identifying and ploting the top 10 influential and influenced diseases based on pairwise causal effects. 
+* 3. spectrum rays and rings clustering.R: R script for clustering diseases based on how they influence others (consequential spectrum rays) and are influeced by others (causal spectrum rings).
+* 4. crosschapter pattern examination
