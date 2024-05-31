@@ -654,7 +654,7 @@ prow <- plot_grid(barplot_exp_f_pos,
 prow
 
 ## Patterns of effects along the consequential spectrum rays 
-pdf("results/figures/effects_rays_pos_neg_10ICD.pdf", width  = 36, height = 18)
+pdf("results/figures/fig3_effects_rays_pos_neg_10ICD.pdf", width  = 36, height = 18)
 plot(prow)
 dev.off()
 
