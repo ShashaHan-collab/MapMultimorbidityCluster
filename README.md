@@ -35,6 +35,8 @@ The methodology involves estimating the impact of one disease on the risk of ano
 * circlize
 * dendextend
 * openxlsx
+* ComplexHeatmap
+* readr
 
 # Descriptions of the files
 
