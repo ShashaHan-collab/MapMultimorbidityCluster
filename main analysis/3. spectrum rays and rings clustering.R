@@ -16,6 +16,7 @@ library(openxlsx)
 library(readr)
 library(pvclust)
 setwd("~/.")
+###female
 dat<-read.csv('main_analysis_Aug14/results_female/pairwise_estimates_imp1.csv')
 dat1<-read.csv('main_analysis_Aug14/results_female/pairwise_estimates_imp1_alpha_0.05_2.csv')
 dat <- anti_join(x = dat, y = dat1, by = c('expo','outcome'))
