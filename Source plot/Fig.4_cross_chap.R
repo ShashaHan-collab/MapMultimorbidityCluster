@@ -17,11 +17,11 @@ library(readr)
 library(plotly)
 
 # 将矩阵转换为长格式
-setwd("D:/RA/heatmap")
+setwd("~/.")
 ###############################################
 ###female
-dat<-read.csv('main_analysis_Aug14/main_analysis_Aug14/results_female/pairwise_estimates_imp1.csv')
-dat1<-read.csv('main_analysis_Aug14/main_analysis_Aug14/results_female/pairwise_estimates_imp1_alpha_0.05_2.csv')
+dat<-read.csv('main_analysis_Aug14/results_female/pairwise_estimates_imp1.csv')
+dat1<-read.csv('main_analysis_Aug14/results_female/pairwise_estimates_imp1_alpha_0.05_2.csv')
 dat <- anti_join(x = dat, y = dat1, by = c('expo','outcome'))
 dat <- rbind(dat, dat1)
 dat<-dat[,c(2:3,5:7)]
@@ -351,8 +351,8 @@ colnames(nodes4)<-"label"
 
 ###############################################
 ###male
-dat<-read.csv('main_analysis_Aug14/main_analysis_Aug14/results_male/pairwise_estimates_imp1.csv')
-dat1<-read.csv('main_analysis_Aug14/main_analysis_Aug14/results_male/pairwise_estimates_imp1_alpha_0.05_2.csv')
+dat<-read.csv('main_analysis_Aug14/results_male/pairwise_estimates_imp1.csv')
+dat1<-read.csv('main_analysis_Aug14/results_male/pairwise_estimates_imp1_alpha_0.05_2.csv')
 dat <- anti_join(x = dat, y = dat1, by = c('expo','outcome'))
 dat <- rbind(dat, dat1)
 dat<-dat[,c(2:3,5:7)]
