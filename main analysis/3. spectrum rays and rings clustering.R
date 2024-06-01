@@ -16,7 +16,9 @@ library(openxlsx)
 library(readr)
 library(pvclust)
 setwd("~/.")
+###############################################
 ###female
+#ray
 dat<-read.csv('main_analysis_Aug14/results_female/pairwise_estimates_imp1.csv')
 dat1<-read.csv('main_analysis_Aug14/results_female/pairwise_estimates_imp1_alpha_0.05_2.csv')
 dat <- anti_join(x = dat, y = dat1, by = c('expo','outcome'))
@@ -327,7 +329,9 @@ newc<-get_new_clu(modi_edge,pv3,modi_clu,child_cluster,k)
 clusters[names(modi_clu)]<-newc
 save(list ='clusters', file = "female_ring.RData")
 
+###############################################                       
 ###male
+#ray
 rm(list = ls())
 setwd("D:/RA/heatmap")
 dat<-read.csv('main_analysis_Aug14/results_male/pairwise_estimates_imp1.csv')
@@ -500,7 +504,7 @@ for (nums in 1:length(modis)) {
 save(list ='clusters', file = "male_ray.RData")
 
 
-###ring
+#ring
 m4<-ifelse(m2>0,1,ifelse(m2<0,-1,0))
 diag(m4)<-1
 m5<-(m4)
