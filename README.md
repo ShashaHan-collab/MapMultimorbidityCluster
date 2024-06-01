@@ -38,6 +38,7 @@ The methodology involves estimating the impact of one disease on the risk of ano
 * ComplexHeatmap
 * readr
 * pvclust
+* plotly
 
 # Descriptions of the files
 * 1. pairwise analysis with tmle.R: R script for estimating the impact of one disease on the risk of another using targeted maximum likelihood estimation (TMLE). It generates intermediate pairwise casual estimates for the following procedure.
