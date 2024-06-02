@@ -16,29 +16,15 @@ library(openxlsx)
 library(readr)
 
 setwd("~/.")
-#female
-dat<-read.csv('main_analysis_Aug14/results_female/pairwise_estimates_imp1.csv')
-dat1<-read.csv('main_analysis_Aug14/results_female/pairwise_estimates_imp1_alpha_0.05_2.csv')
-dat <- anti_join(x = dat, y = dat1, by = c('expo','outcome'))
-dat <- rbind(dat, dat1)
-dat<-dat[,c(2:3,5:7)]
-dat<-dat[order(dat[,2]),]
-dat<-dat[order(dat[,1]),]
-dat[is.na(dat)]<-0
+# for females
+dat<-read.csv('./results_female/pairwise_estimates.csv')
 colnames(dat)<-c('expo','outcome','mean','low95ci','up95ci')
-dat$mean[(dat$low95ci<=0 & dat$up95ci>=0)]=0
-dat<-dat[,1:3]
 m2 <- acast(dat, expo ~ outcome, value.var = "mean")
-## remove icd-10 codes starting with z
-label <- !stringr::str_detect(colnames(m2), '[P]|[R-T]|[V-Z]\\d{2}')
-m2 <- m2[, label]
-m2 <- m2[label, ]
-
 name<-colnames(m2)
+
 data <- read_tsv("ICD10_coding.tsv")
 rownames(data)<-data$coding
 name2<-data[name,]$meaning
-
 
 mat1<-m2
 colnames(mat1)<-name2
@@ -67,33 +53,23 @@ popViewport()
 dev.off()
 
 
-##male
+## for males
 rm(list = ls())
-dat<-read.csv('main_analysis_Aug14/results_male/pairwise_estimates_imp1.csv')
-dat1<-read.csv('main_analysis_Aug14/results_male/pairwise_estimates_imp1_alpha_0.05_2.csv')
-dat <- anti_join(x = dat, y = dat1, by = c('expo','outcome'))
-dat <- rbind(dat, dat1)
-dat<-dat[,c(2:3,5:7)]
-dat<-dat[order(dat[,2]),]
-dat<-dat[order(dat[,1]),]
-dat[is.na(dat)]<-0
+dat<-read.csv('./results_male/pairwise_estimates.csv')
 colnames(dat)<-c('expo','outcome','mean','low95ci','up95ci')
-dat$mean[(dat$low95ci<=0 & dat$up95ci>=0)]=0
-dat<-dat[,1:3]
 m2 <- acast(dat, expo ~ outcome, value.var = "mean")
 label <- !stringr::str_detect(colnames(m2), '[P]|[R-T]|[V-Z]\\d{2}')
 m2 <- m2[, label]
 m2 <- m2[label, ]
 name<-colnames(m2)
-data <- read_tsv("D:/RA/heatmap/ICD10_coding.tsv")
+
+data <- read_tsv("ICD10_coding.tsv")
 rownames(data)<-data$coding
 name2<-data[name,]$meaning
-#name2[160]<-'U07 New diseases of uncertain etiology or emergency use'
 
 mat1<-m2
 colnames(mat1)<-name2
 rownames(mat1)<-name2
-
 
 col_fun1 = colorRamp2(c(-1, -0.05,-0.01,0,0.01,0.05,1), c("navy","blue","lightskyblue3",'white', "orange","red", "firebrick"))
 pdf("results/figures/fig2_effect size_b.pdf", width  =7.5, height = 9)
