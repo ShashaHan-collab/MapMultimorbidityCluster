@@ -207,7 +207,7 @@ EstBiPosNegCross <- EstBiPosNeg %>%
                                ifelse(substr(pair, 5, 6) %in% c('A0','A4'), 'B', code2))))%>%
   mutate(chapter = paste0(code1,code2))
 
-##double
+##bi-directional progress
 BIPO<-EstBiPosCross%>%
   group_by(chapter)%>%
   summarize(count = n())%>%
@@ -229,11 +229,7 @@ for (i in 1:nrow(BIPO)) {
       biposplit$source[i]=te[1]
       biposplit$target[i]=paste0(te[2],te[3])
     }
-    
-    
-    
   }
-  
 }
 biposplit$weight<-BIPO$count
 biposplit<-rbind(biposplit,c('O','O',0))
@@ -252,9 +248,7 @@ chapter<-c('A00-B99',
            'L00-L99',
            'M00-M99',
            'N00-N99',
-           'O00–O99'
-)
-
+           'O00–O99')
 name<-data.frame(c(biposplit$source,biposplit$target))
 ordername<-unique(sort(name[,1]))
 matchtable<-data.frame(ordername,chapter)
@@ -264,9 +258,7 @@ for (i in 1:nrow(biposplit)) {
   temp2<-biposplit[i,2]
   biposplit[i,1]<-paste0('',matchtable[temp1,2])
   biposplit[i,2]<-paste0('',matchtable[temp2,2])
-  
 }
-
 edges3<-biposplit
 nodes3<-data.frame(unique(c(edges3$source,edges3$target)))
 colnames(nodes3)<-"label"
@@ -313,7 +305,6 @@ chapter<-c('A00-B99',
            'N00-N99',
            'O00–O99')
 
-
 name<-data.frame(c(biposplit$source,biposplit$target))
 ordername<-unique(sort(name[,1]))
 matchtable<-data.frame(ordername,chapter)
@@ -333,8 +324,6 @@ colnames(nodes4)<-"label"
 Results <-read.csv('./results_male/pairwise_estimates.csv')
 colnames(dat)<-c('expo','outcome','mean','low95ci','up95ci')
 m2 <- acast(dat, expo ~ outcome, value.var = "mean")
-
-
 Results<-m2
 
 ## find the pairs of bi-directional effects with --> + and  <-- +
@@ -518,6 +507,7 @@ EstBiPosNegCross <- EstBiPosNeg %>%
                                ifelse(substr(pair, 5, 6) %in% c('A0','A4'), 'B', code2))))%>%
   mutate(chapter = paste0(code1,code2))
 
+##bi-directional
 BIPO<-EstBiPosCross%>%
   group_by(chapter)%>%
   summarize(count = n())%>%
@@ -558,9 +548,7 @@ chapter<-c('A00-B99',
            'L00-L99',
            'M00-M99',
            'N00-N99',
-           'U00–U49'
-)
-
+           'U00–U49')
 
 name<-data.frame(c(biposplit$source,biposplit$target))
 ordername<-unique(sort(name[,1]))
@@ -571,9 +559,7 @@ for (i in 1:nrow(biposplit)) {
   temp2<-biposplit[i,2]
   biposplit[i,1]<-paste0('',matchtable[temp1,2])
   biposplit[i,2]<-paste0('',matchtable[temp2,2])
-  
 }
-
 edges1<-biposplit
 nodes1<-data.frame(unique(c(edges1$source,edges1$target)))
 colnames(nodes1)<-"label"
@@ -636,17 +622,18 @@ colnames(nodes2)<-"label"
 
 
 ######################################################################################
+##plots
 pdf("results/figures/fig4_cross_chap.pdf", width  =8, height = 8)
 par(mfrow=c(2,2), mar = c(0, 0, 0, 0) , oma = c(0, 0, 0, 0))
 
+## uni-directional progress for female
 circos.par(gap.after = 10)
 edge41<-edges4[edges4$source==edges4$target,]
 edge42<-edges4[edges4$source!=edges4$target,]
 E4<-rbind(edge41,edge42)
 chordDiagram(link.sort='asis',self.link=1,E4,order =sort(nodes4$label),col="#002fa7",grid.col <-'white',transparency = 0.25
              ,directional=1,direction.type="diffHeight+arrows", diffHeight = convert_height(0, "mm"),
-             annotationTrack = c("grid", "axis"), link.arr.type = "triangle",link.arr.length=0.1,link.arr.col='gray'
-             
+             annotationTrack = c("grid", "axis"), link.arr.type = "triangle",link.arr.length=0.1,link.arr.col='gray'       
 )
 for(si in get.all.sector.index()) {
   xlim = get.cell.meta.data(
@@ -664,15 +651,14 @@ for(si in get.all.sector.index()) {
 circos.clear()
 mtext('a',side=3,line=-2,adj=0,cex=1,font = 2)
 
-
+## uni-directional progress for male
 circos.par(gap.after = 10)
 edge21<-edges2[edges2$source==edges2$target,]
 edge22<-edges2[edges2$source!=edges2$target,]
 E2<-rbind(edge21,edge22)
 chordDiagram(link.sort='asis',self.link=1,E2,order =sort(nodes2$label),col="#002fa7",grid.col <-'white',transparency = 0.25
              ,directional=1,direction.type="diffHeight+arrows", diffHeight = convert_height(0, "mm"),
-             annotationTrack = c("grid", "axis"), link.arr.type = "triangle",link.arr.length=0.1,link.arr.col='gray'
-             
+             annotationTrack = c("grid", "axis"), link.arr.type = "triangle",link.arr.length=0.1,link.arr.col='gray'    
 )
 for(si in get.all.sector.index()) {
   xlim = get.cell.meta.data(
@@ -690,7 +676,7 @@ for(si in get.all.sector.index()) {
 mtext('b',side=3,line=-2,adj=0,cex=1,font = 2)
 circos.clear()
 
-
+## bi-directional progress for female
 circos.par(gap.after = 10)
 edge31<-edges3[edges3$source==edges3$target,]
 edge32<-edges3[edges3$source!=edges3$target,]
@@ -715,15 +701,14 @@ for(si in get.all.sector.index()) {
 mtext('c',side=3,line=-2,adj=0,cex=1,font = 2)
 circos.clear()
 
-circos.clear()
+## bi-directional progress for male
 circos.par(gap.after = 10)
 edge11<-edges1[edges1$source==edges1$target,]
 edge12<-edges1[edges1$source!=edges1$target,]
 E1<-rbind(edge11,edge12)
 chordDiagram(link.sort='asis',self.link=1,E1,order =sort(nodes1$label),col="#B3495C",grid.col <-'white',transparency = 0.25
              ,directional=2,direction.type="diffHeight+arrows", diffHeight = convert_height(0, "mm"),
-             annotationTrack = c("grid", "axis"), link.arr.type = "triangle",link.arr.length=0.1,link.arr.col='gray'
-             
+             annotationTrack = c("grid", "axis"), link.arr.type = "triangle",link.arr.length=0.1,link.arr.col='gray'    
 )
 for(si in get.all.sector.index()) {
   xlim = get.cell.meta.data(
