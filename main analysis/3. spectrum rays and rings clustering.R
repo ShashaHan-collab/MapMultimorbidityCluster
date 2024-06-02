@@ -16,7 +16,6 @@ library(openxlsx)
 library(readr)
 library(pvclust)
 
-
 setwd("~/.")
 ###############################################
 ## for females
@@ -111,7 +110,6 @@ find_nodes<-function(e){
     return(c(b1,b2))
   }
 }
-
 labels<-pv1[["hclust"]][["labels"]]
 
 ##used its child clusters meets the standard if its p-value lower than threshold
