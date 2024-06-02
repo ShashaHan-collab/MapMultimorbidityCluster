@@ -19,7 +19,7 @@ library(plotly)
 setwd("~/.")
 ###############################################
 ##for female
-dat<-read.csv('./results_female/pairwise_estimates_imp1.csv')
+dat<-read.csv('./results_female/pairwise_estimates.csv')
 colnames(dat)<-c('expo','outcome','mean','low95ci','up95ci')
 m2 <- acast(dat, expo ~ outcome, value.var = "mean")
 Results<-m2
