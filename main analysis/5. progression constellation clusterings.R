@@ -61,7 +61,7 @@ nodes$label3[nodes$label3=='B']='A'
 nodes$label3[nodes$label %in% c('D05','D12','D17','D22','D23','D25')]='C'
 nodes$label3[nodes$label=='H91']='B'
 
-##identity and regroup isolated_pairs and nodes
+##identity and regroup isolated pairs and nodes
 isolate<-function(x){
   g <- graph_from_data_frame(x, directed = FALSE)
   components <- clusters(g)
