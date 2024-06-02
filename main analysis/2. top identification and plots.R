@@ -36,7 +36,7 @@ setwd("~/.")
 
 ## for females
 ## Step 0 : Get results 
-Results <- read.csv("./pairwise_correlation_matrix.csv",header=TRUE)[-1]
+Results <- read.csv("./results_female/pairwise_correlation_matrix.csv",header=TRUE)[-1]
 ## expo
 dim = dim(Results)[1]
 
