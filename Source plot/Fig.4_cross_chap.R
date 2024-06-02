@@ -7,7 +7,7 @@ library(grid)
 library(cowplot)
 library(ComplexHeatmap)
 library(igraph)
-library(mlbench)    # for Ionosphere data
+library(mlbench)    
 library(psych)
 library(RColorBrewer)
 library(circlize)
@@ -19,7 +19,7 @@ library(plotly)
 
 setwd("~/.")
 ###############################################
-###female
+##for female
 dat<-read.csv('./results_female/pairwise_estimates_imp1.csv')
 colnames(dat)<-c('expo','outcome','mean','low95ci','up95ci')
 m2 <- acast(dat, expo ~ outcome, value.var = "mean")
