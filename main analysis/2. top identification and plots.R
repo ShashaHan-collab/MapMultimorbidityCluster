@@ -33,27 +33,10 @@ const <- list(); const <- within(const, {
 
 
 setwd("~/.")
+
+## for females
 ## Step 0 : Get results 
-# Results <- read.csv("results/results from server/sen_analysis_Aug7/results_female/pairwise_correlation_matrix_imp1.csv",header=TRUE)[-1]
-# rownames(Results) <- Results[,1]
-# Results <- Results[-1]
-
-#dat<-read.csv('results/results from server/sen_analysis_Aug7/results_female/pairwise_estimates_imp1.csv')
-dat<-read.csv('results/results from server/main_analysis_Aug14/results_female/pairwise_estimates_imp1.csv')
-dat1<-read.csv('results/results from server/main_analysis_Aug14/results_female/pairwise_estimates_imp1_alpha_0.05_2.csv')
-#drop all observations in df1 that match in df2.
-dat <- anti_join(x = dat, y = dat1, by = c('expo','outcome'))
-dat <- rbind(dat, dat1)
-
-dat<-dat[,c(2:3,5:7)]
-dat$mean[(dat$low95ci<=0 & dat$up95ci>=0)]=0
-dat<-dat[,1:3]
-Results <- acast(dat, expo ~ outcome, value.var = "mean")%>%
-  data.frame()
-
-sum(Results >0, na.rm = TRUE)
-sum(Results ==0, na.rm = TRUE)
-sum(Results <0, na.rm = TRUE)
+Results <- read.csv("./pairwise_correlation_matrix.csv",header=TRUE)[-1]
 ## expo
 dim = dim(Results)[1]
 
