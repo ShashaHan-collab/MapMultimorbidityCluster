@@ -29,8 +29,6 @@ name<-colnames(m2)
 data <- read_tsv("ICD10_coding.tsv")
 rownames(data)<-data$coding
 name2<-data[name,]$meaning
-
-
 fun_rxy = function(x,y){
   x_bar = mean(x)
   y_bar = mean(y)
@@ -39,50 +37,39 @@ fun_rxy = function(x,y){
   r_xy = fenzi/fenmu
   return(r_xy)
 }
-
 m4<-ifelse(m2>0,1,ifelse(m2<0,-1,0))
 diag(m4)<-1
 m5<-t(m4)
-t1<-Sys.time()
+
+##hierarchical clustering
 pv1<-pvclust(m5,method.hclust = 'ward.D2',nboot = 2000,iseed = 1)
-t2<-Sys.time()
-#load('1014_1.RData')
 clusters<-(cutree(pv1,h=0.661))
 k<-max(clusters)
 pau<-pv1[["edges"]][["au"]]
-
 hclust_res <- as.hclust(pv1$hclust)
 merge <- hclust_res$merge
 height <- hclust_res$height
 
+##clustering confidence
 check_value <- function(x, data) {
   if (x %in% data) {
     row <- which(data == x, arr.ind = TRUE)[,1]  
-    return(row)
-  } else {
-    return(x)  
-  }
-}
+    return(row)} else {return(x)}}
 
 last_merge <- function(cluster_assignment, cluster_number) {
   merge<-merge[1:(length(cluster_assignment)-k),]
   members <- which(cluster_assignment == cluster_number)
   if(length(members)==1){
-    return('NULL')
-    
-  }
+    return('NULL')}
   involved_merges <- which(apply(-(merge), 1, function(x) any(x %in% members)))
   historys<-c()
   ori<-involved_merges
   while (1) {
-    
     for(me in involved_merges){
       if( me %in% merge[involved_merges,]| me %in% historys[1:(length(historys)-1)]) involved_merges<-involved_merges[involved_merges!=me]
       if(length(involved_merges)==1) {
         return((involved_merges))
-        break
-      }
-    }
+        break}}
     if(length(involved_merges)==1) break
     historys<-c(historys,involved_merges,ori)
     historys<-order(unique(historys))
@@ -124,8 +111,10 @@ find_nodes<-function(e){
     return(c(b1,b2))
   }
 }
+
 labels<-pv1[["hclust"]][["labels"]]
 
+##used its child clusters meets the standard if its p-value lower than threshold
 get_new_clu<-function(item,pv,modi_clu,child_cluster,k){
   if(all(pau[child_cluster]>=0.4)) {
     la<-labels[-find_nodes(item)]
@@ -157,19 +146,17 @@ get_new_clu<-function(item,pv,modi_clu,child_cluster,k){
         modi_clu2<-modi_clu[modi_clu2]
         newc2<-get_new_clu(e,pv,modi_clu2,child_cluster2,k)
         k=k+1
-        
       }
     }
     newc<-c(newc1,newc2)
     return(newc)
   }
-  
 }
 newc<-get_new_clu(modi_edge,pv1,modi_clu,child_cluster,k)
 clusters[names(modi_clu)]<-newc
 save(list ='clusters', file = "female_ray.RData")
 
-#rings
+##rings
 m4<-ifelse(m2>0,1,ifelse(m2<0,-1,0))
 diag(m4)<-1
 m5<-(m4)
@@ -181,43 +168,31 @@ hclust_res <- as.hclust(pv3$hclust)
 merge <- hclust_res$merge
 height <- hclust_res$height
 
-
 check_value <- function(x, data) {
   if (x %in% data) {
     row <- which(data == x, arr.ind = TRUE)[,1]  
-    return(row)
-  } else {
-    return(x) 
-  }
-}
+    return(row)} else {return(x)}}
 
 last_merge <- function(cluster_assignment, cluster_number) {
   merge<-merge[1:(length(cluster_assignment)-k),]
   members <- which(cluster_assignment == cluster_number)
   if(length(members)==1){
-    return('NULL')
-    
-  }
+    return('NULL')}
   involved_merges <- which(apply(-(merge), 1, function(x) any(x %in% members)))
   historys<-c()
   ori<-involved_merges
   while (1) {
-    
     for(me in involved_merges){
       if( me %in% merge[involved_merges,]| me %in% historys[1:(length(historys)-1)]) involved_merges<-involved_merges[involved_merges!=me]
       if(length(involved_merges)==1) {
         return((involved_merges))
-        break
-      }
-    }
+        break}}
     if(length(involved_merges)==1) break
     historys<-c(historys,involved_merges,ori)
     historys<-order(unique(historys))
     involved_merges<- unique(sapply(involved_merges, check_value, merge))
     involved_merges<-involved_merges[order(involved_merges)]
-    
   }
-  
 }
 
 p<-c()
@@ -234,7 +209,6 @@ modi<-which(p<0.40)
 modi_edge<-as.integer(names(modi))
 modi_clu<-(clusters[clusters==modi])
 child_cluster<-merge[modi_edge,]
-
 
 find_nodes<-function(e){
   subs<-merge[e,]
@@ -286,23 +260,21 @@ get_new_clu<-function(item,pv,modi_clu,child_cluster,k){
         modi_clu2<-modi_clu[modi_clu2]
         newc2<-get_new_clu(e,pv,modi_clu2,child_cluster2,k)
         k=k+1
-        
       }
     }
     newc<-c(newc1,newc2)
     return(newc)
   }
-  
 }
 newc<-get_new_clu(modi_edge,pv3,modi_clu,child_cluster,k)
 clusters[names(modi_clu)]<-newc
 save(list ='clusters', file = "female_ring.RData")
 
 ###############################################                       
-### for males
-#ray
-rm(list = ls())
+## for males
 
+##ray
+rm(list = ls())
 dat<-read.csv('./results_male/pairwise_estimates.csv')
 colnames(dat)<-c('expo','outcome','mean','low95ci','up95ci')
 m2 <- acast(dat, expo ~ outcome, value.var = "mean")
@@ -310,7 +282,7 @@ name<-colnames(m2)
 data <- read_tsv("ICD10_coding.tsv")
 rownames(data)<-data$coding
 name2<-data[name,]$meaning
-                       
+
 fun_rxy = function(x,y){
   x_bar = mean(x)
   y_bar = mean(y)
@@ -322,61 +294,40 @@ fun_rxy = function(x,y){
 m4<-ifelse(m2>0,1,ifelse(m2<0,-1,0))
 diag(m4)<-1
 m5<-t(m4)
-t1<-Sys.time()
 pv2<-pvclust(m5,method.hclust = 'ward.D2',nboot = 2000,iseed = 1)
-t2<-Sys.time()
-t2-t1
-load('1014_2.RData')
-
 clusters<-(cutree(pv2,h=0.661))
 k<-max(clusters)
 pau<-pv2[["edges"]][["au"]]
-
 hclust_res <- as.hclust(pv2$hclust)
 merge <- hclust_res$merge
 height <- hclust_res$height
 
-
 check_value <- function(x, data) {
   if (x %in% data) {
     row <- which(data == x, arr.ind = TRUE)[,1]  
-    return(row)
-  } else {
-    return(x)  
-  }
-}
-
+    return(row)} else {return(x)}}
 
 last_merge <- function(cluster_assignment, cluster_number) {
   merge<-merge[1:(length(cluster_assignment)-k),]
   members <- which(cluster_assignment == cluster_number)
   if(length(members)==1){
-    return('NULL')
-    
-  }
- 
+    return('NULL')}
   involved_merges <- which(apply(-(merge), 1, function(x) any(x %in% members)))
   historys<-c()
   ori<-involved_merges
   while (1) {
-    
     for(me in involved_merges){
       if( me %in% merge[involved_merges,]| me %in% historys[1:(length(historys)-1)]) involved_merges<-involved_merges[involved_merges!=me]
       if(length(involved_merges)==1) {
         return((involved_merges))
-        break
-      }
-    }
+        break}}
     if(length(involved_merges)==1) break
     historys<-c(historys,involved_merges,ori)
     historys<-order(unique(historys))
     involved_merges<- unique(sapply(involved_merges, check_value, merge))
     involved_merges<-involved_merges[order(involved_merges)]
-    
   }
-  
 }
-
 
 p<-c()
 edges <- unlist(lapply(unique(clusters), function(x) last_merge(clusters, x)))
@@ -389,12 +340,12 @@ for ( j in 1:length(edges)) {
 }
 names(p)<-edges
 modis<-which(p<0.40)
+
 for (nums in 1:length(modis)) {
   modi<-modis[nums]
   modi_edge<-as.integer(names(modi))
   modi_clu<-(clusters[clusters==modi])
   child_cluster<-merge[modi_edge,]
-  
   find_nodes<-function(e){
     subs<-merge[e,]
     record<-c()
@@ -414,7 +365,6 @@ for (nums in 1:length(modis)) {
     }
   }
   labels<-pv2[["hclust"]][["labels"]]
-  
   get_new_clu<-function(item,pv,modi_clu,child_cluster,k){
     if(all(pau[child_cluster]>=0.4)) {
       la<-labels[-find_nodes(item)]
@@ -446,21 +396,17 @@ for (nums in 1:length(modis)) {
           modi_clu2<-modi_clu[modi_clu2]
           newc2<-get_new_clu(e,pv,modi_clu2,child_cluster2,k)
           k=k+1
-          
         }
       }
       newc<-c(newc1,newc2)
       return(newc)
     }
-    
   }
   newc<-get_new_clu(modi_edge,pv2,modi_clu,child_cluster,k)
   clusters[names(modi_clu)]<-newc
   k<-k+1
 }
-
 save(list ='clusters', file = "male_ray.RData")
-
 
 #rings
 m4<-ifelse(m2>0,1,ifelse(m2<0,-1,0))
@@ -472,49 +418,34 @@ clusters<-cutree(pv4,h=1.260)
 k<-max(clusters)
 pau<-pv4[["edges"]][["au"]]
 hclust_res <- as.hclust(pv4$hclust)
-
 merge <- hclust_res$merge
 height <- hclust_res$height
 
 check_value <- function(x, data) {
   if (x %in% data) {
     row <- which(data == x, arr.ind = TRUE)[,1]  
-    return(row)
-  } else {
-    return(x)  
-  }
-}
-
+    return(row)} else {return(x)}}
 
 last_merge <- function(cluster_assignment, cluster_number) {
   merge<-merge[1:(length(cluster_assignment)-k),]
   members <- which(cluster_assignment == cluster_number)
   if(length(members)==1){
-    return('NULL')
-    
-  }
-  
+    return('NULL')}
   involved_merges <- which(apply(-(merge), 1, function(x) any(x %in% members)))
   historys<-c()
   ori<-involved_merges
   while (1) {
-    
     for(me in involved_merges){
       if( me %in% merge[involved_merges,]| me %in% historys[1:(length(historys)-1)]) involved_merges<-involved_merges[involved_merges!=me]
       if(length(involved_merges)==1) {
         return((involved_merges))
-        break
-      }
-    }
+        break}}
     if(length(involved_merges)==1) break
     historys<-c(historys,involved_merges,ori)
     historys<-order(unique(historys))
     involved_merges<- unique(sapply(involved_merges, check_value, merge))
     involved_merges<-involved_merges[order(involved_merges)]
-    #involved_merges<-unique(which(matrix(merge %in% involved_merges,ncol=2), arr.ind = TRUE)[,1])
-    
   }
-  
 }
 
 p<-c()
@@ -531,7 +462,6 @@ modi<-which(p<0.40)
 modi_edge<-as.integer(names(modi))
 modi_clu<-(clusters[clusters==modi])
 child_cluster<-merge[modi_edge,]
-
 
 find_nodes<-function(e){
   subs<-merge[e,]
@@ -583,16 +513,12 @@ get_new_clu<-function(item,pv,modi_clu,child_cluster,k){
         modi_clu2<-modi_clu[modi_clu2]
         newc2<-get_new_clu(e,pv,modi_clu2,child_cluster2,k)
         k=k+1
-        
       }
     }
     newc<-c(newc1,newc2)
     return(newc)
   }
-  
 }
 newc<-get_new_clu(modi_edge,pv4,modi_clu,child_cluster,k)
 clusters[names(modi_clu)]<-newc
 save(list ='clusters', file = "male_ring.RData")
-
-
