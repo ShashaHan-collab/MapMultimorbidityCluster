@@ -16,7 +16,6 @@ library(openxlsx)
 library(readr)
 library(plotly)
 
-
 setwd("~/.")
 ###############################################
 ##for female
@@ -52,7 +51,6 @@ while (sum(!is.na(EstResults), na.rm = TRUE)){
   EstResults <- EstResults[, -i] %>% data.frame()
   EstResults <- EstResults[-i, ]
 }
-
 
 ## find the pairs of bi-directional effects with --> - and  <-- -
 EstResults <- Results
@@ -382,7 +380,6 @@ while (sum(!is.na(EstResults), na.rm = TRUE)){
   EstResults <- EstResults[-i, ]
 }
 
-
 ## find the pairs of bi-directional effects with --> + and  <-- - or  --> - and  <-- +
 ## and reverse  '--> - and  <-- +' to '--> + and  <-- - or  --> -'
 EstResults <- Results
@@ -483,7 +480,6 @@ while (sum(!is.na(EstResults), na.rm = TRUE)){
   EstResults <- EstResults[-i, ]
 }
 
-
 ###############################
 ## check the cross-chapter pairs
 EstBiPosCross <- EstBiPos %>%
@@ -495,7 +491,6 @@ EstBiPosCross <- EstBiPos %>%
                         ifelse(substr(pair, 5, 6) %in% c('H9'), 'H9', 
                                ifelse(substr(pair, 5, 6) %in% c('A0','A4'), 'B', code2))))%>%
   mutate(chapter = paste0(code1,code2))
-
 
 EstBiPosNegCross <- EstBiPosNeg %>%
   mutate(code1 = substr(pair, 1, 1),code2 = substr(pair, 5, 5))%>%
@@ -619,7 +614,6 @@ for (i in 1:nrow(biposplit)) {
 edges2<-biposplit
 nodes2<-data.frame(unique(c(edges2$source,edges2$target)))
 colnames(nodes2)<-"label"
-
 
 ######################################################################################
 ##plots
