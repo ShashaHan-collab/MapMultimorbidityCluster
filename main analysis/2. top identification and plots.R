@@ -63,9 +63,6 @@ Expo <- cbind(expo_strong_pos,expo_weak_pos,expo_strong_neg,expo_weak_neg) %>%
   mutate(EffectDirection = factor(EffectDirection, levels=c('expo_strong_pos', 'expo_weak_pos',
                                                             'expo_strong_neg','expo_weak_neg')))
 
-
-
-
 order.diseases <- Expo %>%
   filter(EffectDirection == "expo_strong_pos")%>%
   arrange(Proportion) %>%
@@ -83,7 +80,6 @@ order.diseases <- Expo %>%
 order.diseases_expo_f_neg <- order.diseases[(length(order.diseases)-9):length(order.diseases)]
 
 
- 
 barplot_exp_f_pos <-
   Expo %>%
   filter(Anterior %in% order.diseases_expo_f_pos)%>%
@@ -179,8 +175,6 @@ barplot_exp_f_neg <-
   )
 
 ## outcome 
-
-
 out_strong_pos <- Results %>%
   mutate(across(everything(), ~ ifelse(. >= 0.01, 1, 0)))%>%
   colSums(.,na.rm = TRUE)/dim*100
@@ -203,9 +197,6 @@ Out <- cbind(out_strong_pos,out_weak_pos,out_strong_neg,out_weak_neg) %>%
   pivot_longer(., cols = starts_with("out"), names_to = 'EffectDirection', values_to = 'Proportion')%>%
   mutate(EffectDirection = factor(EffectDirection, levels=c('out_strong_pos', 'out_weak_pos',
                                                             'out_strong_neg','out_weak_neg')))
-
-
-## TODO Reivse, expo_strong_pos - expo_strong_neg
 
 order.diseases <- Out %>%
   filter(EffectDirection == "out_strong_pos")%>%
@@ -316,37 +307,12 @@ barplot_out_f_neg <-
   )
 
 
-
-
-
 ###############################################
-## male 
+## for males 
 
 ## Step 0 : Get results 
-# Results <- read.csv("results/results from server/results_male/pairwise_correlation_matrix_imp5.csv",header=TRUE)[-1]
-# rownames(Results) <- Results[,1]
-# Results <- Results[-1]
+Results <- read.csv("./results_male/pairwise_correlation_matrix.csv",header=TRUE)[-1]
 
-#dat<-read.csv('results/results from server/sen_analysis_Aug7/results_male/pairwise_estimates_imp1.csv')
-dat<-read.csv('results/results from server/main_analysis_Aug14/results_male/pairwise_estimates_imp1.csv')
-dat1<-read.csv('results/results from server/main_analysis_Aug14/results_male/pairwise_estimates_imp1_alpha_0.05_2.csv')
-#drop all observations in df1 that match in df2.
-dat <- anti_join(x = dat, y = dat1, by = c('expo','outcome'))
-dat <- rbind(dat, dat1)
-
-dat<-dat[,c(2:3,5:7)]
-dat$mean[(dat$low95ci<=0 & dat$up95ci>=0)]=0
-dat<-dat[,1:3]
-Results <- acast(dat, expo ~ outcome, value.var = "mean")%>%
-  data.frame()
-
-## check increasing effects of U07
-# a = Results[‘U07’,]
-# a[which(a >0)]
-
-sum(Results > 0, na.rm = TRUE)
-sum(Results ==0, na.rm = TRUE)
-sum(Results < 0, na.rm = TRUE)
 ## expo
 dim = dim(Results)[1]
 
@@ -373,8 +339,6 @@ Expo <- cbind(expo_strong_pos,expo_weak_pos,expo_strong_neg,expo_weak_neg) %>%
   mutate(EffectDirection = factor(EffectDirection, levels=c('expo_strong_pos', 'expo_weak_pos',
                                                             'expo_strong_neg','expo_weak_neg')))
 
-
-## Reivse, expo_strong_pos - expo_strong_neg
 
 order.diseases <- Expo %>%
   filter(EffectDirection == "expo_strong_pos")%>%
@@ -486,8 +450,6 @@ barplot_exp_m_neg <-
 
 
 ## outcome 
-
-
 out_strong_pos <- Results %>%
   mutate(across(everything(), ~ ifelse(. >= 0.01, 1, 0)))%>%
   colSums(.,na.rm = TRUE)/dim*100
