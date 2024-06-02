@@ -35,7 +35,6 @@ par(mfrow = c(1,1), mar = c(0, 0, 0, 0) , oma = c(0, 0, 0, 0))
 circos.par(gap.after = c(15),track.margin=c(0,0))
 circos.heatmap(mat1, col = col_fun1,na.col = "black",dend.side = "inside",rownames.side = "outside",rownames.cex = 0.25,
                track.height = 0.45,cluster = FALSE, cell.lwd = 0.05)
-
 circos.text(-3,165, labels = name[1], cex = 0.25, facing = "inside")
 circos.text(-3,-5, labels = name[length(name)], cex = 0.25, facing = "inside")
 arrows(x0=0.45,y0=0.05,x1=0.05,y1=0.005,length = 0.03)
