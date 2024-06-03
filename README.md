@@ -45,11 +45,11 @@ The methodology involves estimating the impact of one disease on the risk of ano
 * tidygraph
 
 # Descriptions of the files
-* pairwise analysis with tmle.R: R script for estimating the impact of one disease on the risk of another using targeted maximum likelihood estimation (TMLE). It generates intermediate pairwise casual estimates for the following procedure.
-* top identification and plots.R: Rscript for identifying and ploting the top 10 influential and influenced diseases based on pairwise causal effects. 
-* spectrum rays and rings clustering.R: R script for clustering diseases based on how they influence others (consequential spectrum rays) and are influeced by others (causal spectrum rings).
-* crosschapter pattern examination.R: R script for exploring bi-directional and uni-directional one-step progression and mapping one-step progression across disease classifications.
-* progression constellation clustering.R: R script for clustering one-step progression disease progression to construct progression constellations.
-Source data: The folder contains all the generated data for reproducing the figures in the paper Han, S., Li, S., Yang, Y. et al. Mapping multimorbidity progression among 190 diseases.
-Source plot: The folder contains the plotting code for reproducing the figures in the paper: Han, S., Li, S., Yang, Y. et al. Mapping multimorbidity progression among 190 diseases.
+* 1.pairwise analysis with tmle.R: R script for estimating the impact of one disease on the risk of another using targeted maximum likelihood estimation (TMLE). It generates intermediate pairwise casual estimates for the following procedure.
+* 2.top identification and plots.R: Rscript for identifying and ploting the top 10 influential and influenced diseases based on pairwise causal effects. 
+* 3.spectrum rays and rings clustering.R: R script for clustering diseases based on how they influence others (consequential spectrum rays) and are influeced by others (causal spectrum rings).
+* 4.crosschapter pattern examination.R: R script for exploring bi-directional and uni-directional one-step progression and mapping one-step progression across disease classifications.
+* 5.progression constellation clustering.R: R script for clustering one-step progression disease progression to construct progression constellations.
+* Source data: The folder contains all the generated data for reproducing the figures in the paper Han, S., Li, S., Yang, Y. et al. Mapping multimorbidity progression among 190 diseases.
+* Source plot: The folder contains the plotting code for reproducing the figures in the paper: Han, S., Li, S., Yang, Y. et al. Mapping multimorbidity progression among 190 diseases.
 
