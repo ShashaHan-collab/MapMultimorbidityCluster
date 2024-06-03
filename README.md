@@ -8,10 +8,8 @@ The methodology involves estimating the impact of one disease on the risk of ano
 
 # Prerequisites
 ## Prerequisite softwares 
-* R version 4.0.3.
-* TODO
+* R version 4.3.0.
 ## Prerequisite third-party R packages
-* TODO, below are examples, please update. 
 * readxl
 * tidyverse
 * sfsmisc
