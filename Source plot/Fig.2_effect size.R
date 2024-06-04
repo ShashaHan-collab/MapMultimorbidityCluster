@@ -17,7 +17,7 @@ library(readr)
 
 setwd("~/.")
 ## for females
-load("female_pairwise_estimates.RData")
+load("Fig 2-4 female_pairwise_estimates.RData")
 name<-colnames(m2)
 data <- read_tsv("ICD10_coding.tsv")
 rownames(data)<-data$coding
@@ -47,7 +47,7 @@ dev.off()
 
 ## for males
 rm(list = ls())
-load("male_pairwise_estimates.RData")
+load("Fig 2-4 male_pairwise_estimates.RData")
 name<-colnames(m2)
 data <- read_tsv("ICD10_coding.tsv")
 rownames(data)<-data$coding
