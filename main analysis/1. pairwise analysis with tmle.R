@@ -37,14 +37,7 @@ lr_tmle <- function(dcode2){
   A <- ukbdata_pairwise[,col.treat_out[1]]%>% as.numeric()
   X <- ukbdata_pairwise %>% select(all_of(cols.x)) %>% select(-all_of(paste0(col.treat_out, '_base')))
   rm(ukbdata_pairwise); gc()
-  
-  # fmla.reg <- as.formula(paste("Y ~ A + ", paste(cols.x, collapse= "+")))
-  # Q <- glm(fmla.reg, data = ukbdata_pairwise, family = binomial(link = 'logit'),
-  #          control = list(epsilon = 1e-5, maxit = 25, trace = TRUE))
-  # coefA = coef(Q)['A']
-  # Q_A = as.vector(predict(Q, type = "response"))
-  # Q_1 = as.vector(plogis(Q$linear.predictors + (1-A)*coefA))
-  # Q_0 = as.vector(plogis(Q$linear.predictors - A*coefA))
+
   
   X_A_dummy = model.matrix(~., cbind(A, X))[,-1]
   Q <- glmnet(X_A_dummy, Y, family = binomial(), lambda = 0, maxit = 50, thresh = 1e-6)
@@ -57,11 +50,6 @@ lr_tmle <- function(dcode2){
   rm(X_A_dummy); gc()
   
   ## Step 2. Learn the propensity score model
-  # fmla.reg <- as.formula(paste("A ~ ", paste(cols.x, collapse= "+")))
-  # g <- glm(fmla.reg, data = ukbdata_pairwise, family = binomial(link = 'logit'),
-  #          control = list(epsilon = 1e-5, maxit = 25))
-  # g_w <- as.vector(predict(g, type = "response"))
-  
   X_dummy = model.matrix(~., X)[,-1]
   g <- glmnet(X_dummy, A, family = binomial(), lambda = 0, maxit = 50, thresh = 1e-6)
   if (g$jerr<0) return(rep(NA, 9))
@@ -114,7 +102,6 @@ names(TMLEmat) <- c("expo","outcome","mean","low95ci","up95ci","pvalue","mininte
 
 ############################################
 ## estimation
-## remove TC, chol
 cols.var <- c("sex", "age", "tdi","edu","ethnic",
               "BMI","IPAQ", "smoke","drink","sleep","phone_use",
               "DBP", "SBP","HbA1c", "HDL", "LDL", "TG","calc","CRP" , 
@@ -129,11 +116,6 @@ cols.x <- c(cols.var,cols.disease.base)
 imp_num = 5
 
 for (i in 1:imp_num){
-  ## Uncomment below for the test
-  # i = 1
-  # dcode1 = "I10"
-  # dcode2 = "E78"
-  
   ## Uncomment below for the final analysis in the server
   ukbdata_i = readRDS(paste0('ukbdata_analysis_comp/ukbdata_imputed_', i, '.rds'))
   
