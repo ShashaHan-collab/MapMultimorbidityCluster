@@ -43,6 +43,7 @@ The methodology involves estimating the impact of one disease on the risk of ano
 * tidygraph
 
 # Descriptions of the files
+* 0. disease selection and covariates imputation.R: R script for selecting most prevelant diseases and implementing multiple imputations.
 * 1.pairwise analysis with tmle.R: R script for estimating the impact of one disease on the risk of another using targeted maximum likelihood estimation (TMLE). It generates intermediate pairwise casual estimates for the following procedure.
 * 2.top identification and plots.R: Rscript for identifying and ploting the top 10 influential and influenced diseases based on pairwise causal effects. 
 * 3.spectrum rays and rings clustering.R: R script for clustering diseases based on how they influence others (consequential spectrum rays) and are influeced by others (causal spectrum rings).
