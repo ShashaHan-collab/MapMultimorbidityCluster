@@ -17,9 +17,7 @@ library(readr)
 
 setwd("~/.")
 ## for females
-dat<-read.csv('./results_female/pairwise_estimates.csv')
-colnames(dat)<-c('expo','outcome','mean','low95ci','up95ci')
-m2 <- acast(dat, expo ~ outcome, value.var = "mean")
+load("female_pairwise_estimates.RData")
 name<-colnames(m2)
 data <- read_tsv("ICD10_coding.tsv")
 rownames(data)<-data$coding
@@ -49,12 +47,7 @@ dev.off()
 
 ## for males
 rm(list = ls())
-dat<-read.csv('./results_male/pairwise_estimates.csv')
-colnames(dat)<-c('expo','outcome','mean','low95ci','up95ci')
-m2 <- acast(dat, expo ~ outcome, value.var = "mean")
-label <- !stringr::str_detect(colnames(m2), '[P]|[R-T]|[V-Z]\\d{2}')
-m2 <- m2[, label]
-m2 <- m2[label, ]
+load("male_pairwise_estimates.RData")
 name<-colnames(m2)
 data <- read_tsv("ICD10_coding.tsv")
 rownames(data)<-data$coding
