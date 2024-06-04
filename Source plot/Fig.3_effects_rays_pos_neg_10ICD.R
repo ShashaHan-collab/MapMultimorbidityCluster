@@ -36,7 +36,8 @@ setwd("~/.")
 
 ## for females
 ## Step 0 : Get results 
-Results <- read.csv("./results_female/pairwise_correlation_matrix.csv",header=TRUE)[-1]
+load("Fig 2-4 female_pairwise_estimates.RData")
+Results <- m2
 ## expo
 dim = dim(Results)[1]
 
@@ -311,7 +312,8 @@ barplot_out_f_neg <-
 ## for males 
 
 ## Step 0 : Get results 
-Results <- read.csv("./results_male/pairwise_correlation_matrix.csv",header=TRUE)[-1]
+load("Fig 2-4 male_pairwise_estimates.RData")
+Results <- m2
 
 ## expo
 dim = dim(Results)[1]
