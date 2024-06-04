@@ -1,8 +1,11 @@
-setwd("~/Dropbox/novonordisk ukbiobank/UKB analysis")
+
 library(dplyr)
 library(data.table)
 library(stringr)
 library(openxlsx)
+library("readxl")
+
+setwd("~/")
 
 ## auxliary functions
 std_date <- function(x){
@@ -22,7 +25,6 @@ replaceNaN <- function(x){
 
 ## merge separate data files
 alldata = fread('./data/ukb_data/field_select.csv')
-#eyeimg = fread('../step2_analyses/field21015.csv')
 addf2 = fread('./data/ukb_data/field_select2.csv')
 addf3 = fread('./data/ukb_data/field_select3.csv')
 addf4 = fread('./data/ukb_data/field_select4.csv')
@@ -32,19 +34,16 @@ addf6 = fread('./data/ukb_data/field_select6.csv')
 alldatac = alldata %>%# left_join(eyeimg) %>% 
   left_join(addf2) %>%  left_join(addf3) %>%  left_join(addf4) %>%  
   left_join(addf5) %>% left_join(addf6) 
-#  filter(`21015-0.0`!='' |`21016-0.0`!='') %>% 
-#  select(-matches('^(40000|40001|40002)'))
+
 rm(alldata); gc()
 ## 40000: date of death;
 ## 40001: primary cause of death;
 ## 40002: secondary cause of death.
 
-# alldatac %>% select(contains('21015') | contains('21016')) %>%
-#   summarise(across(, ~sum(.x != '')))
 
-#write.csv(alldatac, file = 'data/data_clean_v1.csv')
+
+
 rm(list = ls()); gc()
-#rm(addf6)
 
 ## clean data
 alldatac = read.csv('data/data_clean_v1.csv')
@@ -182,7 +181,6 @@ ukbdeath = alldatac %>% select("eid") %>%
 ukbdeath = cbind(ukbdeath, death_cause)
 saveRDS(ukbdeath, file = "data/ukbdeath_v1.rds")
 
-#table(death_cause$X40001.0.0,useNA = 'ifany')
 
 ## extract disease and diagnosis dates
 ukbdisease = alldatac %>% select("eid") 
@@ -214,14 +212,11 @@ selectlabel <- c("I10","Z86","Z92","E78","K57","Z87","Z88","K29","R10","R07",
                  "K21","Z85","K44","Z96","I25","Z53","J45","M19","Z51","Z90",
                  "E11","H26","K62","M17","N39","I48","E66","Y83","K63","I20")
 
-library("readxl")
+
 icd10file <- read_excel('data/disease_prevalence.xlsx')
 selectlabel100 <- icd10file$ICD10
 selectlabel2 <- selectlabel100[!selectlabel100 %in% selectlabel]
-#diseasenum <- sapply(selectlabel,code2num)%>%as.vector()
-#for (type in 1:10){
-# for (type in c(479,811)){
-#   dcode = num2code(type-1)
+
 for(dcode in selectlabel2){
   d10 = apply(ICD10, 1, function(x) which(str_detect(x, pattern = dcode)))
   d10_date = c()
@@ -236,14 +231,8 @@ for(dcode in selectlabel2){
 }
 
 ukbdata <- merge(ukbdata_cleaned,ukbdisease,by="eid")
-##
-#write.csv(ukbdata, file = 'ukbdata_v1.csv')
-#write.csv(ukbdata_cleaned, file = 'ukbdata_demo_v1.csv',row.names=FALSE)
-#write.csv(ukbdisease, file = 'ukbdisease100.csv',row.names=FALSE)
 
 saveRDS(ukbdata, file = "data/ukbdata_v1.rds")
-saveRDS(ukbdisease, file = "data/ukbdisease100.rds")
-saveRDS(ukbdata_cleaned, file = "data/ukbdata_demo.rds")
 
-temp <- ukbdata %>% filter(!is.na(death_date))
+
 
