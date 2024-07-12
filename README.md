@@ -1,7 +1,7 @@
 [![DOI](https://zenodo.org/badge/743379362.svg)](https://zenodo.org/doi/10.5281/zenodo.11479811)
 # MapMultimorbidityCluster
 ## Mapping Multimorbidity Clusters
-This methodology estimated the causal relationships among prevalent diseases and mapped out the clusters of multimorbidity progression among them. It was used in a recent paper: Han, S., Li, S., Yang, Y. et al. Mapping multimorbidity progression among 190 diseases.
+This methodology estimated the causal relationships among prevalent diseases and mapped out the clusters of multimorbidity progression among them. It was used in a recent paper: Han, S., Li, S., Yang, Y. et al. Mapping multimorbidity progression among 190 diseases. Commun Med 4, 139 (2024). https://doi.org/10.1038/s43856-024-00563-2.
 
 # Overall methods
 
